@@ -1,0 +1,123 @@
+<link rel="import" href="../at-theme/at-theme.html">
+
+<dom-module id="at-link">
+
+  <template>
+
+    <style>
+      :host {
+        display: inline;
+        box-sizing: border-box;
+      }
+      
+      .active {
+        background-color: var(--at-active-background-color);       
+        display: block;
+      }
+      
+    </style>
+    <a href="{{href}}" xref="{{xref}}" on-click="ignoreEvent" on-tap="handleLink" draggable="false">
+      <content></content>
+    </a>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'at-link',
+    properties: {
+      href: {
+        type: String,
+        value: ""
+      },
+      xref: {
+        type: String,
+        value: ""
+      }
+    },
+    
+    ignoreEvent: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    },
+    
+    handleLink: function (e) {
+
+      // allow childs to set a different target url, if not provided use default url
+      var href = "",
+        el;
+
+      if (!href && e.url) {
+        href = e.url;
+        el = e
+      };
+
+      if (!href && e.currentTarget && e.currentTarget.href) {
+        href = e.currentTarget.href;
+        el = e.currentTarget
+      };
+
+      if (!href && e.currentTarget.attributes && e.currentTarget.attributes.url) {
+        href = e.currentTarget.attributes.url.value;
+        el = e.currentTarget
+      };
+
+      if (!href && e.detail && e.detail.sourceEvent && e.detail.sourceEvent.currentTarget && e.detail.sourceEvent.currentTarget.href) {
+        href = e.detail.sourceEvent.currentTarget.href;
+        el = e.detail.sourceEvent.currentTarget
+      };
+
+      if (!href) console.log("handLink Url missing");
+
+      // highlight current element
+      if (el) {
+        Polymer.dom(el).classList.add("active");
+        setTimeout(function () {
+          Polymer.dom(el).classList.remove("active");
+        }.bind(this), 300);
+      }
+
+      // when running in IFrame and we also have a direct link to the external url open it
+      if (el && el.getAttribute("xref")) {
+
+        // running in embeded mode
+        if (window.parentIFrame != null) {
+          href = el.getAttribute("xref");
+          window.parentIFrame.sendMessage({
+            cmd: "navigate-to",
+            url: href
+          });
+          return;
+        }
+
+        // chrome extension -> open in new tab
+        if (window.chrome && !!chrome.runtime.id) {
+          href = el.getAttribute("xref");
+          window.open(href, '_blank');
+          return;
+        }
+      }
+
+
+      // convert absolute link to app to relative
+      if (href.indexOf(window.location.origin + window.location.pathname + "#") == 0) {
+        href = href.substring(href.indexOf("#"));
+      }
+
+      if (href) {
+        if (href.indexOf("#") == 0) {
+
+          Polymer.signal("busy-start-async");
+          Polymer.signal("navigate-to", href);
+
+        } else {
+          window.open(href, '_blank');
+        }
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  });
+</script>
