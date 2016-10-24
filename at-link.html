@@ -15,8 +15,13 @@
         display: block;
       }
       
+      #link {
+        color: var(--primary-text-color);
+        text-decoration: none;
+      }
+      
     </style>
-    <a href="{{href}}" xref="{{xref}}" on-click="ignoreEvent" on-tap="handleLink" draggable="false">
+    <a id="link" href="{{href}}" xref="{{xref}}" on-click="ignoreEvent" on-tap="handleLink" draggable="false">
       <content></content>
     </a>
   </template>
