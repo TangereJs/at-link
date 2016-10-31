@@ -50,8 +50,7 @@
     handleLink: function (e) {
 
       // allow childs to set a different target url, if not provided use default url
-      var href = "",
-        el;
+      var href = this.href, el = this;
 
       if (!href && e.url) {
         href = e.url;
@@ -74,6 +73,26 @@
       };
 
       if (!href) console.log("handLink Url missing");
+
+      if (href.indexOf("#") == 0) {
+        var elName = href.substring(1, (href + "?").indexOf("?"));
+        
+        // expand relative name with name prefix
+        if (elName.indexOf("/") < 0) {
+
+          var elNameOrg = elName;
+          var resolve = { namePrefix: "" };
+          this.fire("resolve-name-prefix", resolve);
+          var prefix = resolve.namePrefix;
+
+          if (elName == "default.view") elName = "";
+          elName = elName.replace("default.", "");
+
+          elName = prefix + "/" + prefix + (elName ? ("-" + elName.replace(".", "-")) : "");
+
+          href = href.replace("#" + elNameOrg, "#" + elName);
+        }
+      }
 
       // highlight current element
       if (el) {
@@ -112,10 +131,10 @@
 
       if (href) {
         if (href.indexOf("#") == 0) {
-
+         
           Polymer.signal("busy-start-async");
           Polymer.signal("navigate-to", href);
-
+        
         } else {
           window.open(href, '_blank');
         }
