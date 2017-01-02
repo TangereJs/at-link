@@ -9,19 +9,18 @@
         display: inline;
         box-sizing: border-box;
       }
-      
+
       .active {
-        background-color: var(--at-active-background-color);       
+        background-color: var(--at-active-background-color);
         display: block;
       }
-      
+
       #link {
         color: var(--primary-text-color);
         text-decoration: none;
       }
-      
     </style>
-    <a id="link" href="{{href}}" xref="{{xref}}" on-click="ignoreEvent" on-tap="handleLink" draggable="false">
+    <a id="link" href="{{href}}" xref="{{xref}}" on-click="_ignoreEvent" on-tap="_handleLink" on-contextmenu="_handleLink" draggable="false">
       <content></content>
     </a>
   </template>
@@ -40,15 +39,15 @@
         value: ""
       }
     },
-    
-    ignoreEvent: function (e) {
+
+    _ignoreEvent: function (e) {      
       e.preventDefault();
       e.stopPropagation();
       return false;
     },
-    
-    handleLink: function (e) {
 
+    _handleLink: function (e) {
+      
       // allow childs to set a different target url, if not provided use default url
       var href = this.href, el = this;
 
@@ -74,9 +73,12 @@
 
       if (!href) console.log("handLink Url missing");
 
-      if (href.indexOf("#") == 0) {
+      if (href.indexOf("#?") == 0) {
+        // hrefs starting with #? just change parameters
+        href = this._updateHrefParameters(href.substring(2));
+      } else if (href.indexOf("#") == 0) {
         var elName = href.substring(1, (href + "?").indexOf("?"));
-        
+
         // expand relative name with name prefix
         if (elName.indexOf("/") < 0) {
 
@@ -92,6 +94,12 @@
 
           href = href.replace("#" + elNameOrg, "#" + elName);
         }
+      }
+
+      // rightclick - just update href, browser might open url in new tab
+      if (e.type == "contextmenu") {
+        el.href = href;
+        return;
       }
 
       // highlight current element
@@ -123,7 +131,6 @@
         }
       }
 
-
       // convert absolute link to app to relative
       if (href.indexOf(window.location.origin + window.location.pathname + "#") == 0) {
         href = href.substring(href.indexOf("#"));
@@ -131,10 +138,10 @@
 
       if (href) {
         if (href.indexOf("#") == 0) {
-         
+
           Polymer.signal("busy-start-async");
           Polymer.signal("navigate-to", href);
-        
+
         } else {
           window.open(href, '_blank');
         }
@@ -142,6 +149,56 @@
       e.preventDefault();
       e.stopPropagation();
       return false;
+    },
+
+    _updateHrefParameters: function (params) {
+      var hash = window.location.hash;      
+      var args = {};
+      var app = "", href ="";
+
+      if (hash.indexOf("#!") == 0) {
+        hash = hash.substr(2);
+      } else if (hash.indexOf("#") == 0) {
+        hash = hash.substr(1);
+      }
+      var hashes = hash.split('?');
+      app = hashes[0];
+
+      // extract parameters from current hash
+      if (hashes.length > 1) {
+        var hashes = hashes[1].split('&');
+
+        for (var i = 0; i < hashes.length; i++) {
+          var hash = hashes[i].split('=');
+          if (hash.length > 1) {
+            args[hash[0]] = decodeURIComponent(hash[1]);
+          } else {
+            args[hash[0]] = "";
+          }
+        }
+      }
+
+      // merge new parameters
+      hashes = params.split('&');
+
+      for (var i = 0; i < hashes.length; i++) {
+        var hash = hashes[i].split('=');
+        if (hash.length > 1) {
+          args[hash[0]] = hash[1];
+        } else {
+          args[hash[0]] = "";
+        }
+      }
+            
+      // build new hash
+      var argn = Object.getOwnPropertyNames(args).sort();
+      for (var i = 0; i < argn.length; i++) {
+        var argv = args[argn[i]];
+        if (!!argv) href += "&" + argn[i] + "=" + (encodeURI(argv).split("%2F").join("/"));       
+      }
+
+      href = "#!" + app + (!!href ? "?" + href.substring(1) : "");
+      return href;
     }
   });
 </script>
