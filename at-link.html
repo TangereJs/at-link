@@ -1,3 +1,4 @@
+<link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../at-theme/at-theme.html">
 
 <dom-module id="at-link">
@@ -40,14 +41,14 @@
       }
     },
 
-    _ignoreEvent: function (e) {      
+    _ignoreEvent: function (e) {
       e.preventDefault();
       e.stopPropagation();
       return false;
     },
 
     _handleLink: function (e) {
-      
+
       // allow childs to set a different target url, if not provided use default url
       var href = this.href, el = this;
 
@@ -152,7 +153,7 @@
     },
 
     _updateHrefParameters: function (params) {
-      var hash = window.location.hash;      
+      var hash = window.location.hash;
       var args = {};
       var app = "", href ="";
 
@@ -189,12 +190,12 @@
           args[hash[0]] = "";
         }
       }
-            
+
       // build new hash
       var argn = Object.getOwnPropertyNames(args).sort();
       for (var i = 0; i < argn.length; i++) {
         var argv = args[argn[i]];
-        if (!!argv) href += "&" + argn[i] + "=" + (encodeURI(argv).split("%2F").join("/"));       
+        if (!!argv) href += "&" + argn[i] + "=" + (encodeURI(argv).split("%2F").join("/"));
       }
 
       href = "#!" + app + (!!href ? "?" + href.substring(1) : "");

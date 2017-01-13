@@ -3,6 +3,12 @@
   "version": "0.0.1.60",
   "private": true,
   "dependencies": {
-    "polymer": "Polymer/polymer#master"
+    "tangere": "TangereJs/tangere#0.8-preview",
+    "at-theme": "TangereJs/at-theme#0.8-preview",
+    "at-doc-viewer": "TangereJs/at-doc-viewer#0.8-preview",
+    "paper-styles": "PolymerElements/paper-styles#master",
+    "at-doc-snippet": "TangereJs/at-doc-snippet#0.8-preview",
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#master",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#master"
   }
 }
