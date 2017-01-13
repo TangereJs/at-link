@@ -3,11 +3,11 @@
   "version": "0.0.1.60",
   "private": true,
   "dependencies": {
-    "tangere": "TangereJs/tangere#0.8-preview",
-    "at-theme": "TangereJs/at-theme#0.8-preview",
-    "at-doc-viewer": "TangereJs/at-doc-viewer#0.8-preview",
+    "tangere": "TangereJs/tangere#master",
+    "at-theme": "TangereJs/at-theme#master",
+    "at-doc-viewer": "TangereJs/at-doc-viewer#master",
     "paper-styles": "PolymerElements/paper-styles#master",
-    "at-doc-snippet": "TangereJs/at-doc-snippet#0.8-preview",
+    "at-doc-snippet": "TangereJs/at-doc-snippet#master",
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#master",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#master"
   }
