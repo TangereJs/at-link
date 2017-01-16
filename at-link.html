@@ -1,10 +1,7 @@
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../at-theme/at-theme.html">
-
 <dom-module id="at-link">
-
   <template>
-
     <style>
       :host {
         display: inline;
@@ -26,7 +23,6 @@
     </a>
   </template>
 </dom-module>
-
 <script>
   Polymer({
     is: 'at-link',
@@ -38,9 +34,16 @@
       xref: {
         type: String,
         value: ""
+      },
+      signal: {
+        type: String,
+        value: ''
+      },
+      signalData: {
+        type: String,
+        value: ''
       }
     },
-
     _ignoreEvent: function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -72,7 +75,8 @@
         el = e.detail.sourceEvent.currentTarget
       };
 
-      if (!href) console.log("handLink Url missing");
+
+      if (!href && !signal) console.log("handLink Url missing");
 
       if (href.indexOf("#?") == 0) {
         // hrefs starting with #? just change parameters
@@ -132,6 +136,14 @@
         }
       }
 
+
+      // if signal= is provided we just send a signal
+      if (!!this.signal) {
+        el.href = "#";
+        Polymer.signal(this.signal, this.signalData);
+        return false;
+      }
+
       // convert absolute link to app to relative
       if (href.indexOf(window.location.origin + window.location.pathname + "#") == 0) {
         href = href.substring(href.indexOf("#"));
@@ -155,7 +167,7 @@
     _updateHrefParameters: function (params) {
       var hash = window.location.hash;
       var args = {};
-      var app = "", href ="";
+      var app = "", href = "";
 
       if (hash.indexOf("#!") == 0) {
         hash = hash.substr(2);
