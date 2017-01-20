@@ -1,6 +1,6 @@
 {
   "name": "at-link",
-  "version": "0.0.1.74",
+  "version": "0.0.1.79",
   "private": true,
   "dependencies": {
     "tangere": "TangereJs/tangere#master",

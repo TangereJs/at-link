@@ -129,7 +129,7 @@
         }
 
         // chrome extension -> open in new tab
-        if (window.chrome && !!chrome.runtime.id) {
+        if (window.chrome &&  chrome.runtime && !!chrome.runtime.id) {
           href = el.getAttribute("xref");
           window.open(href, '_blank');
           return;
