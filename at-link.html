@@ -139,7 +139,8 @@
       // if signal= is provided we just send a signal
       if (!!this.signal) {
         el.href = "#";
-        Polymer.signal(this.signal, this.signalData);
+        var arg = { data: this.signalData, sender: this };
+        Polymer.signal(this.signal, arg);
         return false;
       }
 
