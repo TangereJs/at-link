@@ -6,6 +6,7 @@
       :host {
         display: inline;
         box-sizing: border-box;
+        cursor: pointer;
       }
 
       .active {
@@ -17,7 +18,7 @@
         text-decoration: none;
       }
     </style>
-    <a id="link" href="{{href}}" xref="{{xref}}" on-click="_ignoreEvent" on-tap="_handleLink" on-contextmenu="_handleLink" draggable="false">
+    <a id="link" href="{{href}}" xref="{{xref}}" on-click="_ignoreEvent" on-tap="_ignoreEvent" on-contextmenu="_handleLink" draggable="false">
       <content></content>
     </a>
   </template>
@@ -43,6 +44,15 @@
         value: ''
       }
     },
+
+    listeners: {
+      'tap': '_handleHostOnTap'
+    },
+
+    _handleHostOnTap: function(event) {
+      this._handleLink(event);
+    },
+
     _ignoreEvent: function (e) {
       e.preventDefault();
       e.stopPropagation();
