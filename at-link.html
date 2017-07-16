@@ -36,7 +36,12 @@
       },
       signal: {
         type: String,
-        value: ''
+        value: ""
+      },
+      label: {
+        type: String,
+        value: "",
+        title: "label link for activity tracking"
       },
       signalData: {
         type: String,
@@ -99,6 +104,16 @@
           href = href.replace("#" + elNameOrg, "#" + elName);
         }
       }
+
+      // try to get link tracking context
+      var trackingContext = { track: null };
+      this.fire("resolve-tracking-context", trackingContext, { bubbles: true });
+
+      if (trackingContext.track != null) {
+        if (this.label) trackingContext.track.label = this.label;
+        trackingContext.track.url = href;
+        Polymer.signal("log-event", trackingContext.track);
+      };
 
       // rightclick - just update href, browser might open url in new tab
       if (e.type == "contextmenu") {
