@@ -116,7 +116,7 @@
       };
 
       // rightclick - just update href, browser might open url in new tab
-      if (e.type == "contextmenu") {
+      if (e && e.type == "contextmenu") {
         el.href = href;
         return;
       }
@@ -174,8 +174,11 @@
           window.open(href, '_blank');
         }
       }
-      e.preventDefault();
-      e.stopPropagation();
+
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
       return false;
     },
 
