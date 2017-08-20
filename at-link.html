@@ -1,7 +1,10 @@
 <link rel="import" href="../tangere/tangere.html">
 <link rel="import" href="../at-theme/at-theme.html">
+<link rel="import" href="../at-core-style-classes/at-core-style-classes.html">
+
 <dom-module id="at-link">
   <template>
+    <style include="at-core-style-classes"></style> 
     <style>
       :host {
         display: inline;
@@ -52,6 +55,13 @@
       e.preventDefault();
       e.stopPropagation();
       return false;
+    },
+
+    attached: function () {
+
+      // copy "outer" className to "inner" link
+      this.$.link.className = this.className;
+      
     },
 
     _handleLink: function (e) {
