@@ -4,7 +4,7 @@
 
 <dom-module id="at-link">
   <template>
-    <style include="at-core-style-classes"></style> 
+    <style include="at-core-style-classes"></style>
     <style>
       :host {
         display: inline;
@@ -12,7 +12,7 @@
       }
 
       .active {
-        background-color: var(--at-active-background-color);        
+        background-color: var(--at-active-background-color);
       }
 
       #link {
@@ -61,7 +61,7 @@
 
       // copy "outer" className to "inner" link
       this.$.link.className = this.className;
-      
+
     },
 
     _handleLink: function (e) {
