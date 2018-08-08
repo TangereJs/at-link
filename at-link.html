@@ -60,7 +60,7 @@
     attached: function () {
 
       // copy "outer" className to "inner" link
-      this.$.link.className = this.className;
+      this._setClassList(this.$.link, this.className);
 
     },
 
