@@ -8,7 +8,7 @@
     "at-doc-viewer": "TangereJs/at-doc-viewer#master",
     "paper-styles": "TangereJs/paper-styles#master",
     "at-doc-snippet": "TangereJs/at-doc-snippet#master",
-    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#master",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#master"
+    "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0"
   }
 }
