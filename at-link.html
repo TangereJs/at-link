@@ -66,7 +66,8 @@
     _handleLink: function (e) {
 
       // allow childs to set a different target url, if not provided use default url
-      var href = this.href, el = this;
+      var href = this.href, el = this, xref = this.xref || this.href;
+      if (Tangere.session.embedded) href = xref;
 
       if (!href && e.url) {
         href = e.url;
