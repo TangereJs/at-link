@@ -8,6 +8,11 @@
       :host {
         display: inline;
         box-sizing: border-box;
+        pointer-events: auto;    /* ensure that links work even when vlist is disabled */
+      }
+
+      [disabled] {
+        pointer-events: none;
       }
 
       .active {
