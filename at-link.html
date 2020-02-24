@@ -22,9 +22,23 @@
       #link {        
         text-decoration: none;
       }
+      
+      .a {
+        color: red;
+      }
+      
+     .action,  .action:visited {
+       color: var(--at-action-color) !important;
+       cursor: pointer;
+     }
+      
+     .action:hover {
+       color: var(--at-action-color-hover) !important;
+       cursor: pointer;
+     }
     </style>
     <a id="link" href="{{href}}" xref="{{xref}}" on-click="_ignoreEvent" on-tap="_handleLink" on-contextmenu="_handleLink" draggable="false">
-      <slot></slot>
+      <slot class="action"></slot>
     </a>
   </template>
 </dom-module>
